@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>emit_msg.png</file>
+        <file>receive_msg.png</file>
+    </qresource>
+</RCC>
