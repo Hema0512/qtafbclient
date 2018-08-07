@@ -20,7 +20,6 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-//#include <Qsci/qscilexerjson.h>
 
 /*!
  * \brief Convert a QJsonValue to a string representation.
@@ -64,7 +63,7 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
     ui->tbFeatures->setCurrentIndex(0);
     ui->tbFeatures->setEnabled(false);
-
+#if USE_SCINTILLA
     ui->txtCallArg->setMarginLineNumbers(1, true);
     ui->txtCallArg->setMarginWidth(1, 30);
     ui->txtCallArg->setLexer(&m_jsonLexer);
@@ -72,17 +71,22 @@ MainWindow::MainWindow(QWidget* parent)
     ui->txtCallResult->setMarginLineNumbers(1, true);
     ui->txtCallResult->setMarginWidth(1, 30);
     ui->txtCallResult->setLexer(&m_jsonLexer);
+#endif
     ui->txtCallResult->setReadOnly(true);
 
+#if USE_SCINTILLA
     ui->txtDebug->setMarginLineNumbers(1, true);
     ui->txtDebug->setMarginWidth(1, 30);
     ui->txtDebug->setLexer(&m_jsonLexer);
+#endif
     ui->txtDebug->setReadOnly(true);
 
+#if USE_SCINTILLA
     QFont fnt = ui->txtDebug->font();
     fnt.setPointSize(fnt.pointSize() + 2);
     m_jsonLexer.setFont(fnt);
-
+#endif
+    
     connect(ui->btnConnection, SIGNAL(clicked(bool)), this, SLOT(onBtnConnectionClicked(bool)));
     connect(ui->btnCustomText, SIGNAL(clicked(bool)), this, SLOT(onBtnCustomTextClicked(bool)));
     connect(ui->lstDebug, SIGNAL(itemSelectionChanged()), this, SLOT(onLstDebugItemSelectionChanged()));
@@ -139,7 +143,11 @@ void MainWindow::onLstDebugItemSelectionChanged()
         QJsonDocument doc = QJsonDocument::fromJson(item->text().toUtf8());
         result += doc.toJson(QJsonDocument::Indented) + "\n";
     }
+#if USE_SCINTILLA
     ui->txtDebug->setText(result);
+#else
+    ui->txtDebug->setPlainText(result);
+#endif
 }
 
 /*!
@@ -217,9 +225,17 @@ void MainWindow::onClientEvent(QString eventName, const QJsonValue& data)
  */
 void MainWindow::onBtnCallClicked(bool /*checked*/)
 {
+#if USE_SCINTILLA
     QJsonDocument doc = QJsonDocument::fromJson(ui->txtCallArg->text().toUtf8());
+#else
+    QJsonDocument doc = QJsonDocument::fromJson(ui->txtCallArg->toPlainText().toUtf8());
+#endif
     m_client.call(ui->cbApi->currentText(), ui->cbVerb->currentText(), doc.object(), [this](bool r, const QJsonValue& a){
+#if USE_SCINTILLA
         ui->txtCallResult->setText(toString(a));
+#else
+        ui->txtCallResult->setPlainText(toString(a));
+#endif
     });
 }
 

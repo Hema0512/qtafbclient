@@ -21,7 +21,9 @@
 #include <QMap>
 #include <QVector>
 
+#ifdef USE_SCINTILLA
 #include <qscilexerjson.h>
+#endif
 #include "qafbwebsocketclient.h"
 
 namespace Ui {
@@ -56,7 +58,9 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
+#if USE_SCINTILLA
     QsciLexerJSON m_jsonLexer;
+#endif
     QAfbWebsocketClient m_client;
     QMap<QString, QVector<QString>> m_apis;
 };
