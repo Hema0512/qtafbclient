@@ -21,7 +21,7 @@
 #include <QMap>
 #include <QVector>
 
-#include <Qsci/qscilexerjson.h>
+#include <qscilexerjson.h>
 #include "qafbwebsocketclient.h"
 
 namespace Ui {

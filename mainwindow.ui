@@ -199,7 +199,7 @@
   <customwidget>
    <class>QsciScintilla</class>
    <extends>QFrame</extends>
-   <header>Qsci/qsciscintilla.h</header>
+   <header>qsciscintilla.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -20,7 +20,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <Qsci/qscilexerjson.h>
+//#include <Qsci/qscilexerjson.h>
 
 /*!
  * \brief Convert a QJsonValue to a string representation.
